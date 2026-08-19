@@ -1,4 +1,4 @@
-module github.com/tpl996/ruleguard-go-guide
+module github.com/tpl996/ruleguard-go
 
 go 1.23.0
 
