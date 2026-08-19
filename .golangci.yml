@@ -57,6 +57,14 @@ linters-settings:
       regexp: 
         range: (([0-9]{4}(,\s?|-))*{{ year }})
         copy: ^\(C\) Copyright {{ range }} <<COMPANY NAME HERE>>$
+
+  gocritic:
+    enabled-checks:
+      - ruleguard
+    settings:
+      ruleguard:
+        rules: '${configDir}/rules/rules.go'
+        failOn: dsl
         
   exhaustive:
     default-signifies-exhaustive: true
