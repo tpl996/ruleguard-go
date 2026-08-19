@@ -1,0 +1,150 @@
+#
+# lint rules in accordance with style guide
+linters:
+  disable-all: true
+  enable:
+    - asciicheck
+    - bodyclose
+    - dogsled
+    - dupl
+    - durationcheck
+    - errcheck
+    - exportloopref
+    - exhaustive
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gci
+    - gochecknoglobals
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - godot
+    - gofmt
+    - goheader
+    - goimports
+    - gomnd
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - nestif
+    - nlreturn
+    - nolintlint
+    - prealloc
+    - predeclared
+    - revive
+    - staticcheck
+    - stylecheck
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    - unused
+    - wastedassign
+    - wrapcheck
+    - wsl
+    - whitespace
+
+linters-settings:
+  goheader:
+    template: '{{ copy }}'
+    values:
+      regexp: 
+        range: (([0-9]{4}(,\s?|-))*{{ year }})
+        copy: ^\(C\) Copyright {{ range }} <<COMPANY NAME HERE>>$
+        
+  exhaustive:
+    default-signifies-exhaustive: true
+
+  wsl:
+    force-case-trailing-whitespace: 1
+
+  lll:
+    # max line length, lines longer will be reported. Default is 120.
+    # '\t' is counted as 1 character by default, and can be changed with the tab-width option
+    line-length: 120
+    # tab width in spaces. Default to 1.
+    tab-width: 1
+
+  wrapcheck:
+    ignoreSigs:
+      # because we are setting this, we also need to specify all the defaults
+      - ".Errorf("
+      - "errors.New("
+      - "errors.Unwrap("
+      - ".Wrap("
+      - ".Wrapf("
+      - ".WithMessage("
+      - ".WithMessagef("
+      - ".WithStack("
+      # quake functions below this point that don't already match one of the defaults above
+      - "bus.WrapErrorf("
+      - "errors.WrapAsRedfishErr("
+      - "condition.RetryOnETagError("
+      - "condition.RetryOnETagErrorWithCleanup("
+      - "condition.RetryOnETagErrorExplicit("
+
+  gci:
+    # Group all projects under hpe-hcss together and separate from internal and 3rd party
+    sections:
+      - Standard
+      - Default
+      - "prefix(github.com/tpl996)"
+  goimports:
+    # Do the same for goimports since it is enabled above
+    local-prefixes: github.com/tpl996
+
+issues:
+  exclude-rules:
+    # Exclude lll issues for long lines with go:generate and function signatures
+    - linters:
+        - lll
+      source: "(^//go:generate |^func |`.*`)"
+    # Exclude Test functions from funlen
+    - linters:
+        - funlen
+      source: "^func Test"
+
+    # Exclude Test files from some list checks
+    - path: _test\.go
+      linters:
+        - dupl
+  # Reproduce all default exclusions except the one for godoc comments.
+  #
+  # TODO: There is an updated version of golangci-lint that allows specific
+  # built in excludes to be excluded. Once we have it, use that functionality
+  # and get rid of exclude-use-default: false and the long list of excludes.
+  exclude-use-default: false
+  exclude:
+    # errcheck: Almost all programs ignore errors on these functions and in most cases it's ok
+    - Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv|.*ClearSandbox|.*EnforceOptimisticConcurrency|.*RevertPrivileges|display.Errorf). is not checked
+    # golint: False positive when tests are defined in package 'test'
+    - func name will be used as test\.Test.* by other packages, and that stutters; consider calling this
+    # govet: Common false positives
+    - (possible misuse of unsafe.Pointer|should have signature)
+    # staticcheck: Developers tend to write in C-style with an explicit 'break' in a 'switch', so it's ok to ignore
+    - ineffective break statement. Did you mean to break out of the outer loop
+    # gosec: Too many false-positives on 'unsafe' usage
+    - Use of unsafe calls should be audited
+    # gosec: Too many false-positives for parametrized shell calls
+    - Subprocess launch(ed with variable|ing should be audited)
+    # gosec: Duplicated errcheck checks
+    - G104
+    # gosec: Too many issues in popular repos
+    - (Expect directory permissions to be 0750 or less|Expect file permissions to be 0600 or less)
+    # gosec: False positive is triggered by 'src, err := ioutil.ReadFile(filename)'
+    - Potential file inclusion via variable
+
+run:
+  skip-files:
+    - ^.*(generated|mock).*\.go$
+  skip-dirs:
+    - "bin"
+    - "bundles"
+  
+  go: '1.27'
