@@ -1,9 +1,9 @@
-<!-- (C) Copyright 2023 Hewlett Packard Enterprise Development LP -->
+<!-- (C) Mark Watkins -->
 
-# Ruleguard rules to verify GLCP Go style guide compliance
+# Ruleguard rules to verify Go style guide compliance
 
 This repository contains [ruleguard](https://github.com/quasilyte/go-ruleguard) rules that verify as much as possible
-compliance with the [GLCP Go Style guide](https://developer.greenlake.hpe.com/docs/greenlake/standards/language/go_style_guide). Since the guide is opinionated, so are the rules. The rules are incomplete in that they will not verify every aspect of the guide and should not be used as the sole alternative to reading and understanding the aims of the guide. Instead, they should be viewed as an additional check of some easy items and not as a replacement for human review of the code. They are designed to enable more focussed human review of the code by automating trivial style compliance.
+compliance with the style guide. Since the guide is opinionated, so are the rules. The rules are incomplete in that they will not verify every aspect of the guide and should not be used as the sole alternative to reading and understanding the aims of the guide. Instead, they should be viewed as an additional check of some easy items and not as a replacement for human review of the code. They are designed to enable more focussed human review of the code by automating trivial style compliance.
 
 ## Using the rules
 
@@ -25,7 +25,7 @@ Create a directory ```rules``` and add a file called `rules.go`
 package rules
 
 import (
-	glcp "github.com/hpe-hcss/ruleguard-go-guide"
+	glcp "github.com/tpl996/ruleguard-go"
 	"github.com/quasilyte/go-ruleguard/dsl"
 )
 
