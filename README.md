@@ -16,8 +16,6 @@ The preferred way of using these rules is to leverage the use of Go module suppo
 Create a directory ```rules``` and add a file called `rules.go`
 
 ```
-// (C) Copyright 2023 Hewlett Packard Enterprise Development LP
-
 //go:build ruleguard
 // +build ruleguard
 
@@ -25,12 +23,12 @@ Create a directory ```rules``` and add a file called `rules.go`
 package rules
 
 import (
-	glcp "github.com/tpl996/ruleguard-go"
+	guard "github.com/tpl996/ruleguard-go"
 	"github.com/quasilyte/go-ruleguard/dsl"
 )
 
 func init() {
-	dsl.ImportRules("glcp", glcp.Bundle)
+	dsl.ImportRules("guard", guard.Bundle)
 }
 ```
 
