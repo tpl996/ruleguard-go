@@ -90,15 +90,9 @@ linters-settings:
       - ".WithMessage("
       - ".WithMessagef("
       - ".WithStack("
-      # quake functions below this point that don't already match one of the defaults above
-      - "bus.WrapErrorf("
-      - "errors.WrapAsRedfishErr("
-      - "condition.RetryOnETagError("
-      - "condition.RetryOnETagErrorWithCleanup("
-      - "condition.RetryOnETagErrorExplicit("
 
   gci:
-    # Group all projects under hpe-hcss together and separate from internal and 3rd party
+    # Group all projects under tpl996 together and separate from internal and 3rd party
     sections:
       - Standard
       - Default
