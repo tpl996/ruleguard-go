@@ -1,6 +1,6 @@
 module github.com/tpl996/ruleguard-go
 
-go 1.23.0
+go 1.27.0
 
 require (
 	github.com/quasilyte/go-ruleguard v0.4.5
